@@ -19,6 +19,10 @@ class FieldComponent extends React.Component {
     }
   }
 
+  resetValue() {
+    this.setState({ value: "" } );
+  }
+
   render() {
     return (
       <div className="field" onClick={ this.insertValue.bind(this) }>
