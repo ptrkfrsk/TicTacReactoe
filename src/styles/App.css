@@ -19,3 +19,17 @@ body {
   border-width: 1px 0;
   background: #666;
 }
+
+.field {
+  width: 100px;
+  height: 100px;
+  line-height: 100px;
+  text-align: center;
+  border: 2px solid white;
+  font-size: 50px;
+  float: left;
+}
+
+.fieldRow {
+  clear: both;
+}
