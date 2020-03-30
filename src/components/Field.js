@@ -1,4 +1,5 @@
 import React from 'react';
+let circle = true;
 
 class FieldComponent extends React.Component {
   constructor() {
@@ -7,7 +8,15 @@ class FieldComponent extends React.Component {
   }
 
   insertValue() {
-    this.setState({ value: "O" } );
+    if (this.state.value === "") {
+      if (circle === true) {
+        this.setState({value: "O"});
+        circle = false;
+      } else {
+        this.setState({value: "X"});
+        circle = true;
+      }
+    }
   }
 
   render() {
