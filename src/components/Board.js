@@ -1,5 +1,4 @@
 import React from 'react';
-import FieldRow from './FieldRow'
 import Field from './Field'
 
 class BoardComponent extends React.Component {
@@ -10,9 +9,21 @@ class BoardComponent extends React.Component {
   render() {
     return (
       <div className="board">
-        <FieldRow />
-        <FieldRow />
-        <FieldRow />
+        <div className="fieldRow">
+          <Field />
+          <Field />
+          <Field />
+        </div>
+        <div className="fieldRow">
+          <Field />
+          <Field />
+          <Field />
+        </div>
+        <div className="fieldRow">
+          <Field />
+          <Field />
+          <Field />
+        </div>
         <button onClick={()=>alert("Reset")}>Reset</button>
       </div>
     );
