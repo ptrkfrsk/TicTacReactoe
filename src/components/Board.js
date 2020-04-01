@@ -1,5 +1,6 @@
 import React from 'react';
 import Field from './Field'
+import Label from './Label'
 
 class BoardComponent extends React.Component {
   constructor() {
@@ -9,7 +10,8 @@ class BoardComponent extends React.Component {
         player: 'O',
         winIndexes: [0, 1, 2, 3, 4, 5, 6, 7, 8, 0, 3, 6, 1, 4, 7, 2, 5 ,8, 0, 4, 8, 2, 4, 6],
         gameEnded: false,
-        moveCounter: 0
+        moveCounter: 0,
+        status: 'New game...'
     };
   }
 
@@ -23,6 +25,7 @@ class BoardComponent extends React.Component {
             player: 'X',
             values: newValues,
             moveCounter: ++this.state.moveCounter,
+            status: 'X is next...'
           }, this.checkWin);
           break;
         case 'X':
@@ -30,7 +33,8 @@ class BoardComponent extends React.Component {
           this.setState({
             player: 'O',
             values: newValues,
-            moveCounter: ++this.state.moveCounter
+            moveCounter: ++this.state.moveCounter,
+            status: 'O is next...'
           }, this.checkWin);
           break;
         default:
@@ -45,12 +49,13 @@ class BoardComponent extends React.Component {
       values: cleanBoard,
       player: 'O',
       gameEnded: false,
-      moveCounter: 0
+      moveCounter: 0,
+      status: 'New game...'
     }, null);
   }
 
   checkWin() {
-    console.log('Checking...');
+    //console.log('Checking...');
     for (let i = 0; i < this.state.winIndexes.length; i+=3) {
       if (
         this.state.values[this.state.winIndexes[i]] === this.state.values[this.state.winIndexes[i+1]] &&
@@ -58,17 +63,18 @@ class BoardComponent extends React.Component {
         (this.state.values[this.state.winIndexes[i]] === 'O' || this.state.values[this.state.winIndexes[i]] === 'X')
       ) {
         this.setState({
-          gameEnded: true
+          gameEnded: true,
+          status: 'Winner: ' + this.state.values[this.state.winIndexes[i]]
         }, null);
-        console.log(this.state.values[this.state.winIndexes[i]] + ' wins!');
+        //console.log(this.state.values[this.state.winIndexes[i]] + ' wins!');
       }
       else if (this.state.moveCounter === 9) {
         this.setState({
           gameEnded: true,
-          moveCounter: ++this.state.moveCounter
+          moveCounter: ++this.state.moveCounter,
+          status: 'Draw!'
         }, null);
-
-        console.log('Draw!');
+        //console.log('Draw!');
       }
     }
   }
@@ -92,6 +98,7 @@ class BoardComponent extends React.Component {
           <Field value={this.state.values[8]} onClick={() => { this.insertValue(8);} }/>
         </div>
         <button id="resetGame" onClick={() => this.resetGame()}>Reset</button>
+        <Label status={this.state.status} />
       </div>
     );
   }
