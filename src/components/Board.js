@@ -4,16 +4,17 @@ import Field from './Field'
 class BoardComponent extends React.Component {
   constructor() {
     super();
-    this.player = "O";
     this.state = {
         values: ['','','','','','','','',''],
         player: 'O',
+        winIndexes: [0, 1, 2, 3, 4, 5, 6, 7, 8, 0, 3, 6, 1, 4, 7, 2, 5 ,8, 0, 4, 8, 2, 4, 6],
+        gameEnded: false,
+        moveCounter: 0
     };
-
   }
 
   insertValue(i) {
-    if (this.state.values[i] === '') {
+    if (this.state.values[i] === '' && !this.state.gameEnded) {
       const newValues = this.state.values.slice();
       switch (this.state.player) {
         case 'O':
@@ -21,14 +22,16 @@ class BoardComponent extends React.Component {
           this.setState({
             player: 'X',
             values: newValues,
-          });
+            moveCounter: ++this.state.moveCounter,
+          }, this.checkWin);
           break;
         case 'X':
           newValues[i] = 'X';
           this.setState({
             player: 'O',
             values: newValues,
-          });
+            moveCounter: ++this.state.moveCounter
+          }, this.checkWin);
           break;
         default:
           break;
@@ -41,7 +44,33 @@ class BoardComponent extends React.Component {
     this.setState({
       values: cleanBoard,
       player: 'O',
-    });
+      gameEnded: false,
+      moveCounter: 0
+    }, null);
+  }
+
+  checkWin() {
+    console.log('Checking...');
+    for (let i = 0; i < this.state.winIndexes.length; i+=3) {
+      if (
+        this.state.values[this.state.winIndexes[i]] === this.state.values[this.state.winIndexes[i+1]] &&
+        this.state.values[this.state.winIndexes[i+1]] === this.state.values[this.state.winIndexes[i+2]] &&
+        (this.state.values[this.state.winIndexes[i]] === 'O' || this.state.values[this.state.winIndexes[i]] === 'X')
+      ) {
+        this.setState({
+          gameEnded: true
+        }, null);
+        console.log(this.state.values[this.state.winIndexes[i]] + ' wins!');
+      }
+      else if (this.state.moveCounter === 9) {
+        this.setState({
+          gameEnded: true,
+          moveCounter: ++this.state.moveCounter
+        }, null);
+
+        console.log('Draw!');
+      }
+    }
   }
 
   render() {
