@@ -33,3 +33,16 @@ body {
 .fieldRow {
   clear: both;
 }
+
+#resetGame {
+  color: white;
+  border: 2px solid white;
+  background-color: #222;
+  height: 30px;
+  width: 100px;
+  text-align: center;
+}
+
+#resetGame:hover {
+  background-color: #333;
+}

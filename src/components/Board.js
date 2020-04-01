@@ -13,25 +13,35 @@ class BoardComponent extends React.Component {
   }
 
   insertValue(i) {
-    const newValues = this.state.values.slice();
-    switch (this.state.player) {
-      case 'O':
-        newValues[i] = 'O';
-        this.setState({
-          player: 'X',
-          values: newValues,
-        });
-        break;
-      case 'X':
-        newValues[i] = 'X';
-        this.setState({
-          player: 'O',
-          values: newValues,
-        });
-        break;
-      default:
-        break;
+    if (this.state.values[i] === '') {
+      const newValues = this.state.values.slice();
+      switch (this.state.player) {
+        case 'O':
+          newValues[i] = 'O';
+          this.setState({
+            player: 'X',
+            values: newValues,
+          });
+          break;
+        case 'X':
+          newValues[i] = 'X';
+          this.setState({
+            player: 'O',
+            values: newValues,
+          });
+          break;
+        default:
+          break;
+      }
     }
+  }
+
+  resetGame() {
+    const cleanBoard = ['','','','','','','','',''];
+    this.setState({
+      values: cleanBoard,
+      player: 'O',
+    });
   }
 
   render() {
@@ -52,7 +62,7 @@ class BoardComponent extends React.Component {
           <Field value={this.state.values[7]} onClick={() => { this.insertValue(7);} }/>
           <Field value={this.state.values[8]} onClick={() => { this.insertValue(8);} }/>
         </div>
-        <button onClick={()=>alert("Reset")}>Reset</button>
+        <button id="resetGame" onClick={() => this.resetGame()}>Reset</button>
       </div>
     );
   }
